@@ -1,6 +1,39 @@
 version: '3.4'
 
 services:
+  nginx:
+    build:
+      context: nginx
+    links:
+      - backend:backend
+    ports:
+      - "80:80"
+    volumes:
+      - ./volume/static:/var/www/static
+      - ./volume/media:/var/www/media
+
+  frontend:
+    build: frontend/
+    ports:
+      - "8080:80"
+
+  backend:
+    image: backend_image
+    build:
+      context: backend/
+    volumes:
+      - ./volume/static:/var/www/static
+      - ./volume/media:/var/www/media
+      - ./volume/temp:/var/www/temp
+      - ./volume/build:/var/www/build
+      - ./backend:/opt/backend
+    links:
+      - postgres
+    ports:
+      - "8000:80"
+    env_file: .env
+    command: "service"
+
   postgres:
     build:
       context: postgres
