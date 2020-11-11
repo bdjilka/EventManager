@@ -1,0 +1,9 @@
+export const mTypes = {
+    'ADD_EVENT': 'ADD_EVENT',
+    'SET_BOUNDS': 'SET_BOUNDS',
+    'SET_EVENT': 'SET_EVENT',
+    'REWRITE_EVENTS': 'REWRITE_EVENTS',
+    'SET_IS_EDIT': 'SET_IS_EDIT',
+    'OPEN_FORM': 'OPEN_FORM',
+    'CLOSE_FORM': 'CLOSE_FORM',
+};

@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  postgres:
+    build:
+      context: postgres
+    image: infra/postgres
+    container_name: infra.postgres
+    hostname: postgres
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    env_file: .env
+
+volumes:
+  db_volume:
+    driver: local
