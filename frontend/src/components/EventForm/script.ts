@@ -10,6 +10,10 @@ export default class EventForm extends Vue {
         end: '',
         information: [],
     };
+    startTime = null;
+    startDate = null;
+    endTime = null;
+    endDate = null;
 
     information = null;
 
@@ -37,16 +41,16 @@ export default class EventForm extends Vue {
 
     @Watch('isForm')
     isFormChanged(val) {
+        this.$refs.form.resetValidation();
+
         if (val && this.isEdit) {
-            this.eventData = {
-                ...this.currentEvent
-            };
+            this.setEventData();
         }
 
         if (val == false) {
             this.eventData = {
                 title: '',
-                color: '',
+                color: 'blue',
                 start: '',
                 end: '',
             };
@@ -54,10 +58,14 @@ export default class EventForm extends Vue {
         }
     }
 
-    async addEvent() {
-        await this.$store.dispatch('addEvent', {
-          amount: 10
-        });
+    setEventData() {
+        this.eventData = {
+            ...this.currentEvent
+        };
+        this.startDate = this.currentEvent.start.toISOString().substr(0, 10);
+        this.startTime = this.currentEvent.start.toISOString().substr(11, 5);
+        this.endDate = this.currentEvent.end.toISOString().substr(0, 10);
+        this.endTime = this.currentEvent.end.toISOString().substr(11, 5);
     }
 
     async closeForm() {
@@ -72,14 +80,15 @@ export default class EventForm extends Vue {
             this.eventData.information.push(this.information);
         }
 
-        await this.$store.dispatch(this.isEdit ? 'changeEvent': 'addEvent', this.eventData);
+        this.eventData.start = `${this.startDate}T${this.startTime}`;
+        this.eventData.end = `${this.endDate}T${this.endTime}`;
+
+        await this.$store.dispatch(this.isEdit ? 'changeEvent' : 'addEvent', this.eventData);
     }
 
     mounted() {
         if (this.isEdit && !!this.currentEvent) {
-            this.eventData = {
-                ...this.currentEvent
-            };
+            this.setEventData();
         }
     }
 }

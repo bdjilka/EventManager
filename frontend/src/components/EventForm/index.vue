@@ -19,41 +19,67 @@
             </v-text-field>
 
 
-            <!--<v-menu v-model="menu1"-->
-                    <!--:close-on-content-click="false"-->
-                    <!--:nudge-right="40"-->
-                    <!--transition="scale-transition"-->
-                    <!--offset-y-->
-                    <!--min-width="290px">-->
-                <!--<template v-slot:activator="{ on, attrs }">-->
-                    <!--<v-text-field :rules="rule"-->
-                                  <!--label="Название"-->
-                                  <!--dense-->
-                                  <!--outlined-->
-                                  <!--color="primary"-->
-                                  <!--v-model="eventData.title"-->
-                                  <!--prepend-icon="mdi-calendar"-->
-                                  <!--readonly-->
-                                  <!--v-bind="attrs"-->
-                                  <!--v-on="on">-->
-                    <!--</v-text-field>-->
-                <!--</template>-->
-                <!--<v-date-picker v-model="eventData.title" @input="menu1 = false"></v-date-picker>-->
-            <!--</v-menu>-->
-
+            <v-menu v-model="menu1"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px">
+                <template v-slot:activator="{ on, attrs }">
+                    <v-text-field :rules="rule"
+                                  label="Дата начала"
+                                  dense
+                                  outlined
+                                  color="primary"
+                                  v-model="startDate"
+                                  prepend-icon="mdi-calendar"
+                                  readonly
+                                  v-bind="attrs"
+                                  v-on="on">
+                    </v-text-field>
+                </template>
+                <v-date-picker v-model="startDate" @input="menu1 = false"></v-date-picker>
+            </v-menu>
 
             <v-text-field :rules="rule"
-                          label="Начало"
+                          label="Время начала"
+                          hint="Например, 21:30"
                           dense
                           outlined
-                          v-model="eventData.start">
+                          color="primary"
+                          v-model="startTime">
             </v-text-field>
 
+
+            <v-menu v-model="menu2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px">
+                <template v-slot:activator="{ on, attrs }">
+                    <v-text-field :rules="rule"
+                                  label="Дата окончания"
+                                  dense
+                                  outlined
+                                  color="primary"
+                                  v-model="endDate"
+                                  prepend-icon="mdi-calendar"
+                                  readonly
+                                  v-bind="attrs"
+                                  v-on="on">
+                    </v-text-field>
+                </template>
+                <v-date-picker v-model="endDate" @input="menu2 = false"></v-date-picker>
+            </v-menu>
+
             <v-text-field :rules="rule"
-                          label="Окончание"
+                          hint="Например, 21:30"
+                          label="Время окончания"
                           dense
                           outlined
-                          v-model="eventData.end">
+                          color="primary"
+                          v-model="endTime">
             </v-text-field>
 
             <v-text-field label="Добавить информацию"
@@ -64,6 +90,7 @@
 
             <v-select label="Цвет"
                       dense
+                      :rules="rule"
                       :items="colors"
                       outlined
                       v-model="eventData.color">

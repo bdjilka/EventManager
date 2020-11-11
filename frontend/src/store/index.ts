@@ -61,13 +61,14 @@ export default new Vuex.Store({
                         start: new Date(data.data.start),
                         end: new Date(data.data.end),
                     });
+                    commit(mTypes.CLOSE_FORM);
                 })
                 .catch((error) => {
                     alert(error);
                 });
         },
         async changeEvent({commit, dispatch, state}, payload) {
-            axios.patch(`events/${payload.id}/`, payload)
+            axios.put(`events/${payload.id}/`, payload)
                 .then(async () => {
                     await dispatch('getEvents');
                     commit(mTypes.SET_EVENT, payload);
